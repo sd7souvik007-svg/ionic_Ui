@@ -1,24 +1,27 @@
-# Ionic Wealth UI prototype
+# Ionic Exclusives — solution mock
 
-This repository contains the static Android-sized prototype currently used for the Ionic Exclusives conversion study. It has two entry points:
+The main screen in this repository is the proposed Android-sized Exclusives experience: company search, stock filters, product data upfront, comparison, and mutual fund, managed US portfolio, and stock basket discovery.
 
-- `/` — the proposed Exclusives discovery and stock screener screen.
-- `/app.html` — the captured Ionic app replica. Direct category links include `/app.html?section=pms`, `/app.html?section=aif`, and `/app.html?section=sif`.
+## Open the solution
 
-The replica includes Portfolio, Exclusives, global stocks, mutual funds, stock baskets, and the captured PMS, AIF, and SIF catalogues. Product cards open detail screens where information was captured. The AIF details and several SIF destinations are limited by what was visible in the supplied screenshots and read-only walkthrough. They are not a verified, complete copy of the live app.
-
-## Run locally
-
-This is a static site. From this directory:
+From this directory, run:
 
 ```sh
-python -m http.server 8766
+python -m http.server 8767 --bind 127.0.0.1
 ```
 
-Then open <http://127.0.0.1:8766/> or <http://127.0.0.1:8766/app.html?section=exclusives>.
+Open **<http://127.0.0.1:8767/>**.
 
-## Scope and data
+- `index.html` — solution screen layout.
+- `screener.css` — mobile styling.
+- `screener.js` — captured product data, filters, comparison and interactions.
+- `app.html`, `app.js`, `replica-extension.js`, `app-bridge.js` and their styles — supporting portfolio and product screens, including PMS, AIF and SIF. Returning to Exclusives opens the solution screen. The former replica landing URL also redirects to the solution.
+- `assets/` — images and icons used by the prototype.
 
-All prices, returns, fees, minimums, and portfolio examples are dated capture data, not a live feed. This prototype does not connect to Ionic, Vested, a brokerage account, payments, KYC, or an investment order service. It cannot place an order. Personal contact details in the captured account menu have been replaced with demo values.
+The earlier standalone mock files have been removed. The original local replica remains preserved outside this repository.
+
+## Prototype scope
+
+Product prices, returns, fees and minimums are dated captures. This prototype has no live market feed, brokerage connection, payments or order backend. Some AIF and SIF details were not visible in the captures and remain limited; this is not a verified complete copy of Ionic. Personal contact details have been replaced with demo values.
 
 The three-slide hypothesis deck is [included as a PDF](ionic-exclusives-conversion-hypothesis.pdf).

@@ -29,7 +29,7 @@ $('compareTrigger').onclick=compareSheet;$('closeSheet').onclick=closeSheet;
 $('overlay').onclick=e=>{if(e.target===$('overlay'))closeSheet()};
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet()});
 $('headerSearch').onclick=()=>{$('discover').scrollIntoView({behavior:'smooth'});setTimeout(()=>$('stockSearch').focus(),250)};
-$('menu').onclick=()=>location.href='./app.html?section=exclusives';
+$('menu').onclick=()=>document.querySelector('.catalogue').scrollIntoView({behavior:'smooth'});
 $('cart').onclick=()=>openSheet('Cart',`<p>Your cart is empty in this concept. Explore a stock or fund to review its details.</p>`);
 $('portfolioNav').onclick=()=>location.href='./app.html?section=portfolio';
 $('exclusivesNav').onclick=()=>{$('scroll').scrollTo({top:0,behavior:'smooth'})};
