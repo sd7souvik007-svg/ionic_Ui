@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#252e9b">
+  <title>Ionic Exclusives · Explore</title>
+  <link rel="stylesheet" href="screener.css?v=2">
+</head>
+<body>
+  <main class="phone">
+    <div class="status"><span>9:41 <span class="status-icons">▣ ◉</span></span><span>5G ▂▃▅ ▰</span></div>
+    <header class="head"><button class="icon" id="menu" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><div class="member">Souvik <span>⌄</span><small>Switch member</small></div><button class="icon" id="headerSearch" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg></button><button class="icon" id="cart" aria-label="Cart"><svg viewBox="0 0 24 24"><path d="M2 4h2l2.5 12h13l2-9H5"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg></button></header>
+    <div class="scroll" id="scroll">
+      <section class="hero" aria-label="Featured global investing"><div class="hero-copy"><span class="hero-overline">IONIC GLOBAL</span><h1>Own a piece of<br>the world.</h1><span class="hero-min">US stock orders from <b>$1*</b></span></div><img src="assets/global-phone.webp" alt="Ionic global investing preview"><div class="hero-dots"><i class="on"></i><i></i><i></i></div></section>
+      <section class="discover" id="discover"><div class="section-head"><div><span class="eyebrow">EXCLUSIVES</span><h2>Find your first investment</h2></div><span class="spark" aria-hidden="true">✦</span></div><p class="section-sub">Start with a company or an industry you know.</p>
+        <label class="search"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="stockSearch" type="search" placeholder="Search a company or ticker" autocomplete="off"><button id="clearSearch" type="button" aria-label="Clear search" hidden>×</button></label>
+        <div class="chips" id="chips" role="tablist" aria-label="Stock filters"><button class="active" data-filter="all" role="tab" aria-selected="true">Popular</button><button data-filter="technology" role="tab" aria-selected="false">Technology</button><button data-filter="everyday" role="tab" aria-selected="false">Everyday</button><button data-filter="semiconductors" role="tab" aria-selected="false">Chips</button><button data-filter="energy" role="tab" aria-selected="false">Energy</button><button data-filter="banking" role="tab" aria-selected="false">Banking</button></div>
+        <div class="product-label"><span>US STOCKS <small>Captured 17 Oct 2026</small></span><button id="compareTrigger" class="compare-trigger" hidden>Compare <b id="compareCount">0</b> ↗</button></div>
+        <div class="stock-list" id="stockList"></div>
+        <div class="funding-note"><span>ⓘ</span><p><b>$1 is the fractional order minimum.</b> US account setup, funding and FX costs are separate. Prices shown are dated snapshots.</p></div>
+      </section>
+      <section class="other" id="other"><div class="section-head"><div><span class="eyebrow">MORE WAYS TO START</span><h2>Explore another route</h2></div></div><div class="product-tabs" role="tablist" aria-label="Other investments"><button class="active" data-product="funds" role="tab" aria-selected="true">Mutual funds</button><button data-product="managed" role="tab" aria-selected="false">Managed US</button><button data-product="edge" role="tab" aria-selected="false">Stock basket</button></div><div id="otherContent"></div></section>
+      <section class="catalogue"><span class="eyebrow">ALL EXCLUSIVES</span><h2>Explore every category</h2><button data-app-section="pms"><span class="cat-icon">◈</span><span><b>Portfolio Management</b><small>9 PMS · Yield Enhancer and more</small></span><strong>›</strong></button><button data-app-section="aif"><span class="cat-icon">◎</span><span><b>Alternative Investments</b><small>3 AIF · India and global strategies</small></span><strong>›</strong></button><button data-app-section="sif"><span class="cat-icon">▧</span><span><b>Specialized Funds</b><small>6 SIF · long-short strategies</small></span><strong>›</strong></button><button data-app-section="exclusives" class="full-app">Open the full Ionic app replica ↗</button></section>
+      <p class="footer-note">Concept prototype. Historical product figures from supplied Ionic screens; verify live terms before investing.</p>
+    </div>
+    <nav class="bottom" aria-label="Primary"><button id="portfolioNav"><span class="rupee">₹</span><small>PORTFOLIO</small></button><span class="star">✦</span><button class="active" id="exclusivesNav"><span class="grid-icon">▦</span><small>EXCLUSIVES</small></button></nav>
+    <div class="overlay" id="overlay" hidden><section class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle"><div class="sheet-bar"><span></span><button id="closeSheet" aria-label="Close">×</button></div><div id="sheetContent"></div></section></div>
+  </main>
+  <script src="screener.js?v=2"></script>
+</body>
+</html>

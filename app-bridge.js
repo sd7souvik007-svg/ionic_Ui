@@ -1,0 +1,28 @@
+/* Navigation bridge for the preserved replica. Dated facts only; no transactions. */
+(() => {
+  const aifs={
+    'india-aif':{name:'India Multimanager Equity Fund',theme:'Indian equity fund of funds',points:['Access India’s growth through a portfolio of funds','Multi-AMC, multi-style mix: 60% flexicap and 40% midcap'],liquidity:'Daily',aum:'₹200Cr+',return:'−5.2%',minimum:'₹1.40Cr'},
+    'aif':{name:'Global Asset Allocation',theme:'Global multi-asset',points:['Diversified exposure to equities, commodities and REITs','Top-down macro strategy across geographies and asset classes'],liquidity:'Fortnightly',aum:'Not shown',return:'2.8%',minimum:'₹1.40Cr'},
+    'emerging-aif':{name:'Global Emerging Markets (ex-India) Fund',theme:'Emerging-market equity',points:['Capture growth in emerging markets outside India','Low correlation with Indian markets is the stated rationale'],liquidity:'Monthly',aum:'Not shown',return:'Not shown',minimum:'₹1.40Cr'}
+  };
+  const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const oldRender=render;
+  const oldOpen=openDetail;
+  const backLink='';
+  function card(id,p){return `<article class="bridge-aif-card"><small>${esc(p.theme)}</small><h2>${esc(p.name)}</h2><ul>${p.points.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><div class="metrics"><span>Liquidity<b>${esc(p.liquidity)}</b></span><span>AUM<b>${esc(p.aum)}</b></span><span>Return on card<b>${esc(p.return)}</b></span></div><div class="metrics"><span>Standard minimum<b>${esc(p.minimum)}</b></span><span>Accredited entry<b>₹10L conditional</b></span></div><button data-open="${id}">View product details →</button></article>`}
+  function renderAifList(){app.innerHTML=header('Alternative Investment Funds',false,true,false)+`<main class="scroll rep-screen" id="scrollRoot"><div class="bridge-aif-list"><small>EXCLUSIVES · AIF</small><h1>Alternative Investment Funds</h1><p>Three offers captured in Ionic. Review each strategy and its terms before contacting a specialist.</p>${Object.entries(aifs).map(([id,p])=>card(id,p)).join('')}<p>Figures are dated app captures. Eligibility and current fees need verification in Ionic.</p></div></main>${backLink}`;}
+  function renderAifDetail(){const p=aifs[state.replicaProduct]||aifs.aif;app.innerHTML=header(p.name,false,true,false)+`<main class="scroll rep-screen" id="scrollRoot"><div class="bridge-aif-detail"><header><small>AIF · ${esc(p.theme.toUpperCase())}</small><h1>${esc(p.name)}</h1><p>${esc(p.points.join('. '))}.</p></header><div class="fact"><span>Standard minimum</span><b>${esc(p.minimum)}</b></div><div class="fact"><span>Accredited entry</span><b>₹10L if eligible</b></div><div class="fact"><span>Liquidity</span><b>${esc(p.liquidity)}</b></div><div class="fact"><span>AUM shown in app</span><b>${esc(p.aum)}</b></div><div class="fact"><span>Return shown on card</span><b>${esc(p.return)}</b></div><h2>Investment approach</h2><div class="summary">${p.points.map(x=>`<p>${esc(x)}.</p>`).join('')}</div><p class="caveat">The captured screens do not show complete fees, risk and holdings for this AIF. Those terms must be checked with Ionic before a transaction.</p></div></main><div class="rep-sticky"><button class="rep-btn dark" data-bridge="aif-interest">Schedule a call</button></div>${state.modal?modal():''}${backLink}`;}
+  render=function(){if(state.screen==='bridge-aif-list')return renderAifList();if(state.screen==='bridge-aif-detail')return renderAifDetail();oldRender();if(!document.querySelector('.full-return'))app.insertAdjacentHTML('beforeend',backLink);};
+  openDetail=function(name){if(aifs[name]){state.screen='bridge-aif-detail';state.replicaProduct=name;state.modal='';render();return;}oldOpen(name);};
+  window.addEventListener('click',e=>{const back=e.target.closest('[data-action="back"]');if(back){let destination='';if(state.screen==='bridge-aif-detail')destination='bridge-aif-list';else if(['rep-yield','rep-pms-other','core'].includes(state.screen))destination='rep-pms-list';else if(['rep-sif-other','sif'].includes(state.screen))destination='rep-sif-list';if(destination){e.preventDefault();e.stopImmediatePropagation();state.screen=destination;state.modal='';render();return}}const a=e.target.closest('[data-open]');if(a&&(aifs[a.dataset.open]||['sif-sapphire','sif-altiva','sif-titanium','sif-isif','sif-arudha'].includes(a.dataset.open))){e.preventDefault();e.stopImmediatePropagation();openDetail(a.dataset.open);return}const b=e.target.closest('[data-bridge]');if(b?.dataset.bridge==='aif-interest'){e.preventDefault();e.stopImmediatePropagation();state.modal='rep-aif-interest';render();}},true);
+  const qs=new URLSearchParams(location.search);const section=qs.get('section');const item=qs.get('item');
+  if(section==='portfolio'){state.screen='home';state.homeTab='portfolio';render();}
+  else if(section==='exclusives'){state.screen='home';state.homeTab='exclusives';render();}
+  else if(section==='pms'){state.screen='rep-pms-list';state.homeTab='exclusives';render();}
+  else if(section==='aif'){state.screen='bridge-aif-list';state.homeTab='exclusives';render();}
+  else if(section==='sif'){state.screen='rep-sif-list';state.homeTab='exclusives';render();}
+  else if(section==='funds'){state.screen='fund-list';state.mfListTab='All MF';state.homeTab='exclusives';render();}
+  else if(section==='global'){state.screen='rep-us-list';state.globalTab='Stocks';state.homeTab='exclusives';render();}
+  else if(section==='product'&&item){state.homeTab='exclusives';openDetail(item);}
+  else {state.screen='home';state.homeTab='exclusives';render();}
+})();
