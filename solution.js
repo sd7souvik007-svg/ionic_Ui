@@ -21,22 +21,28 @@ renderStocks=function(){
     $('stockList').innerHTML=groups.map((g,i)=>'<div class="stock-rail" aria-label="'+(i?'More US companies':'US companies')+'"><div class="rail-track">'+[0,1,2].map(n=>'<div class="rail-group">'+g.map(s=>smallCard(s,n!==1)).join('')+'</div>').join('')+'</div></div>').join('');
     lanes=[...document.querySelectorAll('.stock-rail')].map((el,i)=>{
       const width=el.querySelector('.rail-group').getBoundingClientRect().width;
-      el.scrollLeft=width;let drag=null;
-      el.addEventListener('pointerdown',e=>{motionPaused=true;syncMotion();if(e.pointerType==='mouse')drag={x:e.clientX,left:el.scrollLeft,moved:false};});
+      el.scrollLeft=width;let drag=null,interacting=false,resumeAt=0;
+      el.addEventListener('pointerdown',e=>{interacting=true;resumeAt=Infinity;if(e.pointerType==='mouse'){drag={x:e.clientX,left:el.scrollLeft,moved:false};el.setPointerCapture(e.pointerId);}});
       el.addEventListener('pointermove',e=>{if(!drag)return;if(Math.abs(e.clientX-drag.x)>5){drag.moved=true;el.scrollLeft=drag.left-(e.clientX-drag.x);e.preventDefault();}});
-      const end=()=>{if(drag?.moved)el.dataset.dragged='yes';drag=null;};
-      el.addEventListener('pointerup',end);el.addEventListener('pointerleave',end);
+      const end=()=>{if(drag?.moved)el.dataset.dragged='yes';drag=null;interacting=false;resumeAt=performance.now()+900;};
+      el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);el.addEventListener('lostpointercapture',()=>{if(interacting)end()});
+      el.addEventListener('wheel',()=>{resumeAt=performance.now()+900},{passive:true});
+      el.addEventListener('scroll',()=>{if(interacting||performance.now()<resumeAt)lane.position=el.scrollLeft},{passive:true});
       el.addEventListener('click',e=>{if(el.dataset.dragged){e.preventDefault();e.stopImmediatePropagation();delete el.dataset.dragged;}},true);
-      return {el,width,position:width,direction:i===0?-1:1};
+      const lane={el,width,position:width,direction:i===0?-1:1,held:now=>interacting||now<resumeAt};return lane;
     });
     let previous=performance.now();
     const animate=now=>{
       const seconds=Math.min((now-previous)/1000,.05); previous=now;
       if(!motionPaused&&!reducedMotion.matches&&!document.hidden&&$('overlay').hidden){
         lanes.forEach(lane=>{
-          const {el,width,direction}=lane;
-          if(el.matches(':hover')||el.matches(':focus-within')){lane.position=el.scrollLeft;return;}
-          lane.position+=direction*4*seconds;
+          const {el,direction}=lane;
+          if(!el.getClientRects().length)return;
+          const width=el.querySelector('.rail-group').getBoundingClientRect().width;
+          if(!width)return;
+          if(lane.width!==width){lane.width=width;lane.position=width;el.scrollLeft=width;}
+          if(lane.held(now)||el.querySelector(':focus-visible')){lane.position=el.scrollLeft;return;}
+          lane.position+=direction*14*seconds;
           if(lane.position<width*.35)lane.position+=width;
           if(lane.position>width*1.65)lane.position-=width;
           el.scrollLeft=lane.position;
@@ -55,7 +61,7 @@ function syncMotion(){const b=$('motionToggle');b.textContent=motionPaused?'▶ 
 $('motionToggle').onclick=()=>{motionPaused=!motionPaused;syncMotion();};
 reducedMotion.addEventListener('change',e=>{motionPaused=e.matches;syncMotion();});
 openSheet=function(title,body,action='Close',onAction=null){
-  returnFocus=document.activeElement; motionPaused=true;syncMotion();
+  returnFocus=document.activeElement;
   $('sheetContent').innerHTML='<h2 id="sheetTitle">'+title+'</h2>'+body+'<button class="primary" id="sheetAction">'+action+'</button><button class="secondary" id="sheetDismiss">Back to Exclusives</button>';
   $('overlay').hidden=false;
   $('sheetAction').onclick=onAction||closeSheet;$('sheetDismiss').onclick=closeSheet;
