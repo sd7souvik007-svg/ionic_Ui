@@ -31,3 +31,15 @@ We do not claim that wealthy people will not read, that Ionic has low NPS, or th
 ## Prototype
 The main experience uses ten historical US-stock fixtures already present in the captured prototype. It exposes historical dates, full-share USD prices and separate fractional-order minimums. There is no live feed or order submission.
 Motion runs at 9 CSS pixels per second in opposite directions, with a pause control, pause on interaction, hover/focus pause, and reduced-motion support. Search and filtered results are stationary.
+
+
+## Revision: Android evidence and upfront flagship access
+The current mock uses three routes directly below the hero: US stocks, Funds & baskets, and Flagship (PMS/AIF/SIF). Each switches the visible catalogue. The two stock rows move at 4 CSS px/second, previously 9, with pause and reduced-motion support.
+
+### Primary Android study
+Haverkamp et al., published online 2022, Reading and Writing 36 (2023), 1589–1608: https://doi.org/10.1007/s11145-022-10328-9
+145 Norwegian students read informational text on Samsung Galaxy A02s phones or Lenovo tablets, both Android 10. Paging led to more strategic backtracking than scrolling; better integrated understanding was a tendency. This supports investigating the effort of revisiting information, not a proven conversion effect or an abandonment percentage. No iOS-specific scroll-depth threshold was established. The earlier desktop 74% figure is not used as mobile evidence in the revised deck.
+
+The main three slides now cover the product problem, the three upfront routes, and the decision flow. Slide four holds the hypothesis, research links and limitations. The claim that wealthy users do not read, and low Ionic NPS, remain unsupported. Measure the proposed funnel by OS and account readiness before claiming improvement.
+
+Current deliverables: deliverables/Ionic-Exclusives-Final.pptx and deliverables/Ionic-Exclusives-Final.pdf.

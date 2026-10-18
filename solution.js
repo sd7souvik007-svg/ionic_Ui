@@ -36,7 +36,7 @@ renderStocks=function(){
         lanes.forEach(lane=>{
           const {el,width,direction}=lane;
           if(el.matches(':hover')||el.matches(':focus-within')){lane.position=el.scrollLeft;return;}
-          lane.position+=direction*9*seconds;
+          lane.position+=direction*4*seconds;
           if(lane.position<width*.35)lane.position+=width;
           if(lane.position>width*1.65)lane.position-=width;
           el.scrollLeft=lane.position;
@@ -101,3 +101,51 @@ document.addEventListener('click',e=>{
    openSheet('Edge · Catalyst Model','<p>Ionic Research · Indian stock basket</p><div class="sheet-facts"><div><span>Captured minimum</span><b>₹3 lakh</b></div><div><span>Stocks</span><b>20–25</b></div><div><span>Risk · horizon</span><b>High · 1–3 years</b></div><div><span>Annual research fee</span><b>₹10,000 + GST</b></div><div><span>Six-month research fee</span><b>₹6,000 + GST</b></div></div><div class="risk-line"><b>Mid and small-cap exposure</b><p>Prices can fluctuate sharply. The research subscription is separate from the amount invested in stocks.</p></div><p class="capture-label">Minimum and fees are from the supplied app screen. Confirm current terms and brokerage charges before subscribing.</p>','View basket details',()=>location.href='./app.html?section=product&item=edge');
  }
 },true);
+
+/* Category catalogue uses the same captured offerings as the preserved app. */
+const companyLogos={AVGO:'broadcom.svg',BAC:'bankofamerica.svg',JPM:'jpmorganchase.svg',MSFT:'microsoft.png',TSM:'tsmc.png',XOM:'exxonmobil.png',CVX:'chevron.png'};
+stocks.forEach(s=>{if(companyLogos[s.ticker])s.logo=companyLogos[s.ticker]});
+const safeText=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const strategyLink=(id,label='View details')=>'<a class="strategy-cta" href="./app.html?section=product&item='+encodeURIComponent(id)+'">'+label+' <span>→</span></a>';
+function strategyCatalogue(){
+ const card=(badge,name,firm,body,facts,id)=>'<article class="strategy-card"><div class="strategy-provider"><span>'+badge+'</span><small>'+safeText(firm)+'</small></div><h3>'+safeText(name)+'</h3><p>'+safeText(body)+'</p><dl>'+facts.map(([k,v])=>'<div><dt>'+k+'</dt><dd>'+safeText(v)+'</dd></div>').join('')+'</dl>'+strategyLink(id)+'</article>';
+ const pms=strategyData.pms.map(p=>card('PMS',p.name,p.firm,p.bullets[0],[['Strategy',p.strategy],['AUM · ₹ Cr',p.aum],['Return shown*',p.returns],['Standard minimum','₹50L']],p.id)).join('');
+ const aif=Object.entries(strategyData.aif).map(([id,p])=>card('AIF',p.name,p.theme,p.points[0],[['Liquidity',p.liquidity],['AUM',p.aum],['Return shown*',p.return],['Standard minimum',p.minimum]],id)).join('');
+ const sif=strategyData.sif.map(([name,firm,a,b,id])=>card('SIF',name,firm,a,[['Standard minimum','₹10L'],['Approach',name.includes('Equity')?'Equity long-short':'Hybrid long-short']],id)).join('');
+ $('flagship').innerHTML='<div class="strategy-intro"><span class="eyebrow">PRIVATE WEALTH</span><h2>Specialist managers.<br>More ways to invest.</h2><p>Explore PMS, alternative investments and specialised funds.</p></div><nav class="strategy-jumps" aria-label="Jump to strategy type"><button data-strategy-jump="pms">PMS <small>9</small></button><button data-strategy-jump="aif">AIF <small>3</small></button><button data-strategy-jump="sif">SIF <small>6</small></button></nav><section class="strategy-section" id="strategy-pms"><header><span>01 / PMS</span><h2>Portfolio management</h2><p>A manager builds and manages your portfolio.</p></header>'+pms+'</section><section class="strategy-section" id="strategy-aif"><header><span>02 / AIF</span><h2>Alternative investments</h2><p>Indian and global strategies beyond traditional funds.</p></header>'+aif+'</section><section class="strategy-section" id="strategy-sif"><header><span>03 / SIF</span><h2>Specialised funds</h2><p>Explore equity and hybrid long-short approaches.</p></header>'+sif+'</section><p class="strategy-source">*Figures from supplied Ionic captures; periods differ or are unspecified. Returns are not comparable forecasts. Eligibility, costs and current terms apply. Accredited entry may differ from standard minimums.</p>';
+}
+let activeCategory='stocks';
+const categoryOrder=['stocks','funds','flagship'];
+const categoryHeroes={
+ stocks:{overline:'IONIC GLOBAL',title:'Own a piece of<br>the world.',pill:'US stock orders from <b>$1*</b>',image:'global-phone.webp',alt:'Global investing preview'},
+ funds:{overline:'FUNDS & BASKETS',title:'Expert selection.<br>Your investment.',pill:'Mutual funds · Managed portfolios · Baskets',image:'hero-tiles-v2.webp',alt:'Stack of investment cards'},
+ flagship:{overline:'PRIVATE WEALTH',title:'Private Wealth.<br>More possibilities.',pill:'PMS · AIF · SIF',image:'sif-hero.webp',alt:'Specialised investment strategy artwork'}
+};
+function updateHero(view){
+ const h=categoryHeroes[view],hero=document.querySelector('.hero');hero.dataset.category=view;
+ hero.setAttribute('aria-label',h.overline+' — swipe to change investment category');
+ hero.innerHTML='<div class="hero-copy"><span class="hero-overline">'+h.overline+(view==='flagship'?' <em class="flagship-tag hero-flagship"><i></i>Flagship</em>':'')+'</span><h1>'+h.title+'</h1><span class="hero-min">'+h.pill+'</span></div><img src="assets/'+h.image+'" alt="'+h.alt+'"><div class="hero-controls"><button data-hero-step="-1" aria-label="Previous category">‹</button><div class="hero-pagination">'+categoryOrder.map((key,i)=>'<button data-hero-category="'+key+'" class="'+(key===view?'on':'')+'" aria-label="'+['US stocks','Funds and baskets','Private Wealth'][i]+'" aria-pressed="'+(key===view)+'"></button>').join('')+'</div><button data-hero-step="1" aria-label="Next category">›</button></div>';
+}
+function showCategory(view){
+ activeCategory=view;sessionStorage.setItem('ionic-category',view);
+ Object.entries({stocks:'discover',funds:'other',flagship:'flagship'}).forEach(([key,id])=>$(id).hidden=key!==view);
+ [['jumpGlobal','stocks'],['jumpFunds','funds'],['jumpMore','flagship']].forEach(([id,key])=>{$(id).classList.toggle('selected',key===view);$(id).setAttribute('aria-pressed',key===view)});
+ updateHero(view);$('scroll').scrollTop=0;
+}
+$('jumpGlobal').onclick=()=>showCategory('stocks');
+$('jumpFunds').onclick=()=>showCategory('funds');
+$('jumpMore').onclick=()=>showCategory('flagship');
+$('menu').onclick=()=>showCategory('flagship');
+$('headerSearch').onclick=()=>{showCategory('stocks');$('stockSearch').focus()};
+document.addEventListener('click',e=>{
+ const jump=e.target.closest('[data-strategy-jump]');if(jump)$('strategy-'+jump.dataset.strategyJump).scrollIntoView({behavior:reducedMotion.matches?'auto':'smooth',block:'start'});
+ const category=e.target.closest('[data-hero-category]');if(category)showCategory(category.dataset.heroCategory);
+ const step=e.target.closest('[data-hero-step]');if(step)showCategory(categoryOrder[(categoryOrder.indexOf(activeCategory)+Number(step.dataset.heroStep)+3)%3]);
+});
+let heroPointer=null;
+const hero=document.querySelector('.hero');hero.style.touchAction='pan-y';
+hero.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;heroPointer={x:e.clientX,y:e.clientY};hero.setPointerCapture(e.pointerId)});
+hero.addEventListener('pointerup',e=>{if(!heroPointer)return;const dx=e.clientX-heroPointer.x,dy=e.clientY-heroPointer.y;heroPointer=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.4)showCategory(categoryOrder[(categoryOrder.indexOf(activeCategory)+(dx<0?1:2))%3])});
+hero.addEventListener('pointercancel',()=>heroPointer=null);
+strategyCatalogue();renderStocks();
+const savedCategory=sessionStorage.getItem('ionic-category');showCategory(categoryOrder.includes(savedCategory)?savedCategory:'stocks');
