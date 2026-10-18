@@ -1,27 +1,21 @@
-# Ionic Exclusives — solution mock
+# Ionic Exclusives — proposed solution
 
-The main screen in this repository is the proposed Android-sized Exclusives experience: company search, stock filters, product data upfront, comparison, and mutual fund, managed US portfolio, and stock basket discovery.
+Run the Android-sized mock locally:
 
-## Open the solution
-
-From this directory, run:
-
-```sh
+~~~sh
 python -m http.server 8767 --bind 127.0.0.1
-```
+~~~
 
-Open **<http://127.0.0.1:8767/>**.
+Open **http://127.0.0.1:8767/**.
 
-- `index.html` — solution screen layout.
-- `screener.css` — mobile styling.
-- `screener.js` — captured product data, filters, comparison and interactions.
-- `app.html`, `app.js`, `replica-extension.js`, `app-bridge.js` and their styles — supporting portfolio and product screens, including PMS, AIF and SIF. Returning to Exclusives opens the solution screen. The former replica landing URL also redirects to the solution.
-- `assets/` — images and icons used by the prototype.
+The main screen keeps Ionic's hero, then presents compact stock cards with captured prices and exposure. Two rows move slowly in opposite directions. Pause, search, filters and two-stock comparison work. Product details explain ownership, risk and the steps before a purchase. Mutual funds, managed US portfolios and the stock basket remain available alongside PMS/AIF/SIF catalogues.
 
-The earlier standalone mock files have been removed. The original local replica remains preserved outside this repository.
+## Files
+- index.html, screener.css, screener.js: main shell and shared fixtures.
+- solution.css, solution.js: refined cards, motion controls and detail flows.
+- app.html and supporting replica files: captured portfolio and deeper product screens. Returning to Exclusives opens the proposed solution.
+- [Research](RESEARCH.md): sources, limitations and experiment design.
+- [Editable three-slide proposal](deliverables/Ionic-Exclusives-18-Oct-2026.pptx): linked references and speaker notes.
+- [PDF sharing copy](deliverables/Ionic-Exclusives-18-Oct-2026.pdf).
 
-## Prototype scope
-
-Product prices, returns, fees and minimums are dated captures. This prototype has no live market feed, brokerage connection, payments or order backend. Some AIF and SIF details were not visible in the captures and remain limited; this is not a verified complete copy of Ionic. Personal contact details have been replaced with demo values.
-
-The three-slide hypothesis deck is [included as a PDF](ionic-exclusives-conversion-hypothesis.pdf).
+Figures are historical captures. No live quote, KYC, payment or investment backend is connected. Some deeper captured screens remain incomplete. This is an interactive product proposal, not a complete production app. The original local replica is preserved outside this repository.
