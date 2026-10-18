@@ -50,3 +50,5 @@ The blue flower opens a prepared explanation for every stock and mutual fund in 
 
 ## Private Wealth welcome
 Tapping Private Wealth opens a full-screen welcome inside the shared Android frame. Gold rings and the blue flower reveal “Welcome to the inner circle.” The screen automatically continues after 3.2 seconds. Skip and Explore Private Wealth work immediately; keyboard users can use Escape and Tab. Interaction stops the automatic timer, and reduced-motion mode presents a static welcome. No eligibility or membership is granted by this visual treatment.
+
+Final sharing deck refreshed on 18 October 2026: three product pages include the Private Wealth welcome and the stock and mutual-fund AI previews; a fourth page retains the hypothesis and research references.
