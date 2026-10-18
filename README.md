@@ -42,3 +42,5 @@ The mock and captured detail screens share an Android device frame. Simulated cl
 Company marks: Broadcom, Bank of America and Chase SVGs from https://cdn.simpleicons.org/; remaining missing company icons retrieved using Google's favicon service for microsoft.com, tsmc.com, chevron.com and exxon.com. Used solely to identify the companies in the mock.
 
 The Flagship badge sits outside and above Private Wealth. All three category tabs share equal widths, heights and label alignment.
+
+The final deck uses plain product explanations, selectable PDF text and linked research references. It explains discovery, share price versus order minimum, missing costs and the steps before a purchase. No em dashes are used in the slide text.
