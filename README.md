@@ -47,3 +47,6 @@ The final deck uses plain product explanations, selectable PDF text and linked r
 
 ## AI deep dive preview
 The blue flower opens a prepared explanation for every stock and mutual fund in the proposed catalogue. It covers strengths, risks and company direction or fund approach, with topic controls and an official source link. The card and fund-row heights are unchanged. These are demonstrative answers, not live model calls, recommendations or return forecasts. Source links and prepared content are maintained in ai-research-data.js.
+
+## Private Wealth welcome
+Tapping Private Wealth opens a full-screen welcome inside the shared Android frame. Gold rings and the blue flower reveal “Welcome to the inner circle.” The screen automatically continues after 3.2 seconds. Skip and Explore Private Wealth work immediately; keyboard users can use Escape and Tab. Interaction stops the automatic timer, and reduced-motion mode presents a static welcome. No eligibility or membership is granted by this visual treatment.
