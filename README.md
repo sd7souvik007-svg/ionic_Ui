@@ -44,3 +44,6 @@ Company marks: Broadcom, Bank of America and Chase SVGs from https://cdn.simplei
 The Flagship badge sits outside and above Private Wealth. All three category tabs share equal widths, heights and label alignment.
 
 The final deck uses plain product explanations, selectable PDF text and linked research references. It explains discovery, share price versus order minimum, missing costs and the steps before a purchase. No em dashes are used in the slide text.
+
+## AI deep dive preview
+The blue flower opens a prepared explanation for every stock and mutual fund in the proposed catalogue. It covers strengths, risks and company direction or fund approach, with topic controls and an official source link. The card and fund-row heights are unchanged. These are demonstrative answers, not live model calls, recommendations or return forecasts. Source links and prepared content are maintained in ai-research-data.js.

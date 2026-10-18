@@ -43,3 +43,9 @@ Haverkamp et al., published online 2022, Reading and Writing 36 (2023), 1589–1
 The main three slides now cover the product problem, the three upfront routes, and the decision flow. Slide four holds the hypothesis, research links and limitations. The claim that wealthy users do not read, and low Ionic NPS, remain unsupported. Measure the proposed funnel by OS and account readiness before claiming improvement.
 
 Current deliverables: deliverables/Ionic-Exclusives-Final.pptx and deliverables/Ionic-Exclusives-Final.pdf.
+
+
+## AI deep dive concept
+Added a source-linked explanation for each of the ten displayed stocks and three mutual funds. Company explanations cover the business, potential strengths, risks and stated direction. Fund explanations cover the mandate, exposure, risks and costs to verify. Official company filings and AMC documents are linked inside the preview; full source URLs are stored in ai-research-data.js.
+
+This mock uses prepared examples, identified in the source panel and PDF. It does not call a live model, predict returns or assess personal suitability. Its conversion impact is an additional hypothesis. A live service would need approved-source retrieval, timestamps, answer evaluation and clear handling of missing facts. Test comprehension and first unassisted investments separately from the layout and motion changes.
