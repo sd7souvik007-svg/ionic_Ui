@@ -31,11 +31,21 @@
   if(matchMedia('(prefers-reduced-motion: reduce)').matches){done();return}
   if(!transition.hidden)return;
   const contents=leaving?{label:'IONIC EXCLUSIVES',title:view==='portfolio'?'Your portfolio':'Back to Exclusives',sub:'Your next choice, in one place.',image:'global-horizon.webp'}:view==='funds'?{label:'FUNDS & BASKETS',title:'Expert selection.\nYour investment.',sub:'Explore funds, portfolios and baskets.',image:'hero-tiles-v2.webp'}:{label:'IONIC GLOBAL',title:'A world of\npossibilities.',sub:'Explore US stocks.',image:'global-phone.webp'};
-  transition.dataset.kind=leaving?'exit':view;
+  transition.classList.remove('is-revealing');transition.dataset.kind=leaving?'exit':view;
   transition.innerHTML='<button class="category-skip" type="button">Skip</button><div class="category-transition-art"><img src="assets/'+contents.image+'" alt=""></div><span class="category-transition-label">'+contents.label+'</span><h2 id="categoryTransitionTitle">'+contents.title.replace('\n','<br>')+'</h2><p>'+contents.sub+'</p><span class="category-transition-line" aria-hidden="true"></span>';
   shortInert=[...phone.children].filter(el=>el!==transition).map(el=>[el,el.inert]);shortInert.forEach(([el])=>el.inert=true);
-  completeShort=()=>{clearTimeout(shortTimer);transition.hidden=true;shortInert.forEach(([el,value])=>el.inert=value);shortInert=[];completeShort=null;done()};
-  transition.hidden=false;transition.querySelector('button').onclick=()=>completeShort?.();transition.querySelector('button').focus({preventScroll:true});shortTimer=setTimeout(()=>completeShort?.(),leaving?900:1000);
+  completeShort=()=>{
+   clearTimeout(shortTimer);completeShort=null;
+   shortInert.forEach(([el,value])=>el.inert=value);shortInert=[];
+   // Commit the destination while the curtain is still opaque.
+   done();
+   if(view==='portfolio')return;
+   requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    transition.classList.add('is-revealing');
+    shortTimer=setTimeout(()=>{transition.hidden=true;transition.classList.remove('is-revealing')},200);
+   }));
+  };
+  transition.hidden=false;transition.querySelector('button').onclick=()=>completeShort?.();transition.querySelector('button').focus({preventScroll:true});shortTimer=setTimeout(()=>completeShort?.(),leaving?680:780);
  }
  const changeCategory=showCategory;
  showCategory=function(view){

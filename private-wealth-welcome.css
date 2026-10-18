@@ -38,5 +38,7 @@
 .category-skip{position:absolute;top:24px;right:20px;border:1px solid #fff3;border-radius:20px;background:none;color:#d7deed;min-height:36px;padding:0 15px;font-size:10px}
 .category-transition-art{width:145px;height:145px;display:grid;place-items:center;margin-bottom:25px}.category-transition-art img{width:100%;height:100%;object-fit:contain}.category-transition[data-kind=stocks] .category-transition-art{height:165px}.category-transition[data-kind=exit] .category-transition-art{width:165px;height:125px}
 .category-transition-label{font-size:8px;letter-spacing:.17em;color:#cbb68e;margin-bottom:13px}.category-transition h2{font:400 29px/1.2 Georgia,serif;margin:0 0 15px;color:#fff1d8}.category-transition p{font-size:10px;line-height:1.6;color:#aab8d0;margin:0}.category-transition-line{height:1px;width:35px;background:#cfb277;margin-top:25px}
-@keyframes categoryCurtain{0%{opacity:0;transform:translateX(12px)}18%,75%{opacity:1;transform:translateX(0)}100%{opacity:0;transform:translateX(-10px)}}
+@keyframes categoryCurtain{0%{opacity:0;transform:translateX(12px)}18%,100%{opacity:1;transform:translateX(0)}}
+.category-transition.is-revealing{animation:categoryReveal .18s ease both}
+@keyframes categoryReveal{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-10px)}}
 @media(prefers-reduced-motion:reduce){.pw-leaving,.category-transition{animation:none!important}}
