@@ -81,3 +81,5 @@
 .phone .product-tabs button[data-product=managed] small{color:#3d4ca5;font-weight:500;font-size:7px}
 .phone .product-tabs button[data-product=managed].active{background:#28369f;color:#fff;border-color:#28369f;box-shadow:0 4px 12px #28369f45}
 .phone .product-tabs button[data-product=managed].active small{color:#e2e7ff}
+
+.phone .product-tabs button[data-product=managed]{gap:3px}.phone .product-tabs button[data-product=managed] span{font-size:10px;line-height:1.15}.phone .product-tabs button[data-product=managed] small{font-size:6.5px}.phone .managed-card .other-metrics b{font-size:12px}
