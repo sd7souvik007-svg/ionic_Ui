@@ -8,22 +8,49 @@
  function stopAutomatic(){clearTimeout(timer);timer=null;intro.classList.add('pw-manual')}
  function finishWelcome(restoreFocus=true){
   if(intro.hidden)return;
-  clearTimeout(timer);timer=null;intro.hidden=true;intro.classList.remove('pw-playing','pw-manual');
-  inertState.forEach(([el,value])=>el.inert=value);inertState=[];
-  if(restoreFocus&&origin?.isConnected)origin.focus({preventScroll:true});
+  clearTimeout(timer);timer=null;
+  const close=()=>{intro.hidden=true;intro.classList.remove('pw-playing','pw-manual','pw-leaving');inertState.forEach(([el,value])=>el.inert=value);inertState=[];if(restoreFocus&&origin?.isConnected)origin.focus({preventScroll:true})};
+  if(restoreFocus&&!matchMedia('(prefers-reduced-motion: reduce)').matches){intro.classList.add('pw-leaving');timer=setTimeout(close,220)}else close();
  }
  function beginWelcome(){
   if(!intro.hidden)return;
-  origin=document.getElementById('jumpMore');
+  origin=document.querySelector('[data-pw-exit]');
   inertState=[...phone.children].filter(el=>el!==intro).map(el=>[el,el.inert]);inertState.forEach(([el])=>el.inert=true);
   intro.hidden=false;intro.classList.remove('pw-manual');intro.classList.add('pw-playing');
   intro.querySelector('.pw-skip').focus({preventScroll:true});
   if(!matchMedia('(prefers-reduced-motion: reduce)').matches)timer=setTimeout(()=>finishWelcome(),3200);
   else intro.classList.add('pw-manual');
  }
+ const focusBar=document.createElement('nav');focusBar.className='pw-focus-bar';focusBar.setAttribute('aria-label','Private Wealth navigation');focusBar.innerHTML='<button data-pw-exit type="button"><span aria-hidden="true">‹</span> Back to Exclusives</button><span>PRIVATE WEALTH <small>PMS · AIF · SIF</small></span>';
+ document.querySelector('.quick-nav').after(focusBar);
+ function focusPrivate(enabled){phone.classList.toggle('private-mode',enabled)}
+ focusPrivate(activeCategory==='flagship');
+ const transition=document.createElement('section');transition.className='category-transition';transition.id='categoryTransition';transition.hidden=true;transition.setAttribute('role','dialog');transition.setAttribute('aria-modal','true');transition.setAttribute('aria-labelledby','categoryTransitionTitle');phone.append(transition);
+ let shortTimer=null,shortInert=[],completeShort=null,lastBrowse=activeCategory==='flagship'?'stocks':activeCategory;
+ function playTransition(view,done,leaving=false){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){done();return}
+  if(!transition.hidden)return;
+  const contents=leaving?{label:'IONIC EXCLUSIVES',title:view==='portfolio'?'Your portfolio':'Back to Exclusives',sub:'Your next choice, in one place.',image:'global-horizon.webp'}:view==='funds'?{label:'FUNDS & BASKETS',title:'Expert selection.\nYour investment.',sub:'Explore funds, portfolios and baskets.',image:'hero-tiles-v2.webp'}:{label:'IONIC GLOBAL',title:'A world of\npossibilities.',sub:'Explore US stocks.',image:'global-phone.webp'};
+  transition.dataset.kind=leaving?'exit':view;
+  transition.innerHTML='<button class="category-skip" type="button">Skip</button><div class="category-transition-art"><img src="assets/'+contents.image+'" alt=""></div><span class="category-transition-label">'+contents.label+'</span><h2 id="categoryTransitionTitle">'+contents.title.replace('\n','<br>')+'</h2><p>'+contents.sub+'</p><span class="category-transition-line" aria-hidden="true"></span>';
+  shortInert=[...phone.children].filter(el=>el!==transition).map(el=>[el,el.inert]);shortInert.forEach(([el])=>el.inert=true);
+  completeShort=()=>{clearTimeout(shortTimer);transition.hidden=true;shortInert.forEach(([el,value])=>el.inert=value);shortInert=[];completeShort=null;done()};
+  transition.hidden=false;transition.querySelector('button').onclick=()=>completeShort?.();transition.querySelector('button').focus({preventScroll:true});shortTimer=setTimeout(()=>completeShort?.(),leaving?900:1000);
+ }
  const changeCategory=showCategory;
- showCategory=function(view){const previous=activeCategory;if(view!=='flagship')finishWelcome(false);changeCategory(view);if(view==='flagship'&&previous!=='flagship')beginWelcome()};
+ showCategory=function(view){
+  const previous=activeCategory;
+  if(view==='flagship'){if(previous!=='flagship')lastBrowse=previous;changeCategory(view);focusPrivate(true);if(previous!=='flagship')beginWelcome();return}
+  const reveal=()=>{changeCategory(view);focusPrivate(false);lastBrowse=view;document.getElementById(view==='funds'?'jumpFunds':'jumpGlobal').focus({preventScroll:true})};
+  if(previous==='flagship'){finishWelcome(false);playTransition(view,reveal,true)}
+  else if(previous!==view)playTransition(view,reveal);
+  else reveal();
+ };
  document.getElementById('jumpMore').onclick=()=>{showCategory('flagship');beginWelcome()};
+ focusBar.querySelector('button').onclick=()=>showCategory(lastBrowse);
+ document.getElementById('exclusivesNav').onclick=()=>{if(activeCategory==='flagship')showCategory(lastBrowse);else document.getElementById('scroll').scrollTo({top:0,behavior:'smooth'})};
+ document.getElementById('portfolioNav').onclick=()=>{if(activeCategory==='flagship')playTransition('portfolio',()=>location.href='./app.html?section=portfolio',true);else location.href='./app.html?section=portfolio'};
+ document.addEventListener('keydown',e=>{if(transition.hidden)return;if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();completeShort?.()}else if(e.key==='Tab'){e.preventDefault();transition.querySelector('button').focus()}},true);
  intro.querySelector('.pw-skip').onclick=()=>finishWelcome();intro.querySelector('.pw-enter').onclick=()=>finishWelcome();
  intro.addEventListener('pointerdown',stopAutomatic);
  document.addEventListener('keydown',e=>{

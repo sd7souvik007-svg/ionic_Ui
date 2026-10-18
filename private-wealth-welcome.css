@@ -25,3 +25,18 @@
 @keyframes pwProgress{to{transform:scaleX(1)}}
 @media(max-height:760px){.pw-emblem{width:154px;height:154px;margin-bottom:20px}.pw-welcome-content{padding-top:73px;padding-bottom:100px}.pw-welcome-content h2{font-size:31px}.pw-divider{margin:17px 0 13px}.pw-welcome-content p{margin-bottom:16px}.pw-welcome-bottom{bottom:25px}}
 @media(prefers-reduced-motion:reduce){.pw-intro *{animation:none!important;transition:none!important}.pw-progress{display:none}.pw-flower{filter:none}}
+
+/* Private Wealth becomes a focused space, with one explicit route back. */
+.pw-focus-bar{display:none}.private-mode .quick-nav{display:none}.private-mode .hero-controls{display:none}
+.private-mode .pw-focus-bar{display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:5;min-height:58px;padding:8px 16px;background:#faf7ef;border-bottom:1px solid #dfd3bc}
+.pw-focus-bar button{border:0;background:none;color:#74603d;font:500 9px Poppins,Arial,sans-serif;padding:6px 0;min-height:40px;display:flex;align-items:center;gap:6px}.pw-focus-bar button>span{font-size:23px;font-weight:400}.pw-focus-bar>span{font-size:9px;letter-spacing:.08em;color:#715934;text-align:right;font-weight:600}.pw-focus-bar small{display:block;font-size:7px;font-weight:400;margin-top:3px;color:#a18e6b}
+.private-mode .strategy-jumps{top:58px}.private-mode .strategy-section{scroll-margin-top:116px}
+.pw-leaving{animation:pwWelcomeLeave .22s ease both}
+@keyframes pwWelcomeLeave{to{opacity:0;transform:scale(1.025)}}
+.category-transition{position:absolute;inset:0;z-index:75;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,#203c72,#102347 65%,#0b182d);color:#fff1db;padding:30px;animation:categoryCurtain 1s ease both;font-family:Poppins,Arial,sans-serif}
+.category-transition[data-kind=exit]{background:radial-gradient(ellipse at 50% 35%,#31445a,#13263e 65%,#0a1729);animation-duration:.9s}
+.category-skip{position:absolute;top:24px;right:20px;border:1px solid #fff3;border-radius:20px;background:none;color:#d7deed;min-height:36px;padding:0 15px;font-size:10px}
+.category-transition-art{width:145px;height:145px;display:grid;place-items:center;margin-bottom:25px}.category-transition-art img{width:100%;height:100%;object-fit:contain}.category-transition[data-kind=stocks] .category-transition-art{height:165px}.category-transition[data-kind=exit] .category-transition-art{width:165px;height:125px}
+.category-transition-label{font-size:8px;letter-spacing:.17em;color:#cbb68e;margin-bottom:13px}.category-transition h2{font:400 29px/1.2 Georgia,serif;margin:0 0 15px;color:#fff1d8}.category-transition p{font-size:10px;line-height:1.6;color:#aab8d0;margin:0}.category-transition-line{height:1px;width:35px;background:#cfb277;margin-top:25px}
+@keyframes categoryCurtain{0%{opacity:0;transform:translateX(12px)}18%,75%{opacity:1;transform:translateX(0)}100%{opacity:0;transform:translateX(-10px)}}
+@media(prefers-reduced-motion:reduce){.pw-leaving,.category-transition{animation:none!important}}

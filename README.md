@@ -52,3 +52,6 @@ The blue flower opens a prepared explanation for every stock and mutual fund in 
 Tapping Private Wealth opens a full-screen welcome inside the shared Android frame. Gold rings and the blue flower reveal “Welcome to the inner circle.” The screen automatically continues after 3.2 seconds. Skip and Explore Private Wealth work immediately; keyboard users can use Escape and Tab. Interaction stops the automatic timer, and reduced-motion mode presents a static welcome. No eligibility or membership is granted by this visual treatment.
 
 Final sharing deck refreshed on 18 October 2026: three product pages include the Private Wealth welcome and the stock and mutual-fund AI previews; a fourth page retains the hypothesis and research references.
+
+## Final motion refinement
+Private Wealth hides the other category tabs and offers Back to Exclusives. Entry and exit are animated, and the exit returns to the prior category. US stocks and Funds & baskets use one-second transitions. Skip, Escape and reduced-motion controls are supported. The final deck has three product slides and two clearly labelled APPENDIX slides; page 5 explains the motion rationale and how to evaluate it.
